@@ -95,3 +95,35 @@ class Banco:
             print("Dispositivo Casdastrado com sucesso!")
             cursor.close()
             connection.close()
+
+    def lista_dispositivos(self):
+        connection = self.get_connection()
+        cursor = connection.cursor()
+        dispositivos = []  
+        try:
+            cursor.execute("""
+                SELECT id_dispositivo, codigo, status, localizacao
+                FROM t_gs_dispositivo_medicao
+                WHERE usuario_id = :usuario_id
+            """, usuario_id=self.usuario_id)
+            dispositivos = cursor.fetchall()
+            
+            if dispositivos:
+                print("\n=== Lista de Dispositivos ===")
+                for dispositivo in dispositivos:
+                    id_dispositivo, codigo, status, localizacao = dispositivo
+                    print(f"ID Dispositivo: {id_dispositivo}")
+                    print(f"Código: {codigo}")
+                    print(f"Status: {status}")
+                    print(f"Localização: {localizacao}")
+                    print("------------------------------")
+            else:
+                print("Nenhum dispositivo encontrado para este usuário.")
+        except oracledb.Error as error:
+            print(f"Erro ao listar dispositivos: {error}")
+        finally:
+            cursor.close()
+            connection.close()
+
+        return dispositivos
+
