@@ -69,7 +69,7 @@ class Banco:
             
             usuario = cursor.fetchone()
             if usuario:
-                self.usuario_id = usuario[0]  # Salva o ID do usuário logado
+                self.usuario_id = usuario[0] 
                 print(f"Bem-vindo, {usuario[1]}!")
             else:
                 print("Email ou senha incorretos.")
