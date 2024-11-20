@@ -79,18 +79,19 @@ class Banco:
             cursor.close()
             connection.close()
 
-    def insere_dispositivo(self, codigo, status, localizacao):
+    def insere_dispositivo(self, codigo, localizacao):
         connection = self.get_connection()
         cursor = connection.cursor()
         try:
             cursor.execute("""
-                INSERT INTO t_gs_dispositivo (id_dispositivo, codigo, status, localizacao, usuario_id)
+                INSERT INTO t_gs_dispositivo_medicao (id_dispositivo, codigo, status, localizacao, usuario_id)
                 VALUES (sq_id_dispositivo.nextval, :codigo, :status, :localizacao, :usuario_id)
-            """, codigo=codigo, status=status, localizacao=localizacao, usuario_id=self.usuario_id)
+            """, codigo=codigo, status="A", localizacao=localizacao, usuario_id=self.usuario_id)
             connection.commit()
         except oracledb.Error as error:
             print(f"Erro ao inserir Dispositivo: {error}")
             connection.rollback()
         finally:
+            print("Dispositivo Casdastrado com sucesso!")
             cursor.close()
             connection.close()

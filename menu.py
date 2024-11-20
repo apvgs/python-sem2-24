@@ -68,8 +68,9 @@ class Menu:
 
     def cadastrar_dispositivo(self):
         print("\n=== Cadastrar Dispositivo ===")
-        
-        print("Funcionalidade ainda não implementada.")
+        codigo = input("Informe o codigo do dispositivo: ")
+        localizacao = input("Informe qual comodo da casa o dispositivo ira medir: ")
+        self.negocio.insere_dispositivo(codigo, localizacao)
 
     def editar_dispositivo(self):
         print("\n=== Editar Dispositivo ===")

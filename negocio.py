@@ -19,3 +19,6 @@ class Negocio:
     def login_usuario(self, email, senha):
         return self.banco.login_usuario(email, senha)
 
+    def insere_dispositivo(self,codigo, localizacao):
+        return self.banco.insere_dispositivo(codigo, localizacao)
+        
