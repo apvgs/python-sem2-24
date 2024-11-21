@@ -80,11 +80,9 @@ class Menu:
     def editar_dispositivo(self):
         print("\n=== Editar Dispositivo ===")
         
-        print("Funcionalidade ainda não implementada.")
+        self.negocio.banco.edita_dispositivo()
         
         
     def excluir_dispositivo(self):
         print("\n=== Deletar Dispositivo ===")
-        
-        print("ainda nao")
-
+        self.negocio.banco.exclui_dispositivo()

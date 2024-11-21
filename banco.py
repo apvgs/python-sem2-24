@@ -127,3 +127,93 @@ class Banco:
 
         return dispositivos
 
+    def edita_dispositivo(self):
+        connection = self.get_connection()
+        cursor = connection.cursor()
+        dispositivos = self.lista_dispositivos()
+        try:
+            if dispositivos:
+                id_dispositivo = int(input("\nDigite o ID do dispositivo que deseja editar: "))
+
+                dispositivo = next((d for d in dispositivos if d[0] == id_dispositivo), None)
+                if not dispositivo:
+                    print("ID do dispositivo não encontrado.")
+                    return
+
+                print("\nO que você deseja editar?")
+                print("1. Código")
+                print("2. Status")
+                print("3. Localização")
+                escolha = input("Escolha uma opção: ")
+
+                if escolha == '1':
+                    novo_codigo = input("Digite o novo código: ")
+                    cursor.execute("""
+                        UPDATE t_gs_dispositivo_medicao
+                        SET codigo = :novo_codigo
+                        WHERE id_dispositivo = :id_dispositivo
+                    """, novo_codigo=novo_codigo, id_dispositivo=id_dispositivo)
+                elif escolha == '2':
+                    novo_status = input("Digite o novo status: ")
+                    cursor.execute("""
+                        UPDATE t_gs_dispositivo_medicao
+                        SET status = :novo_status
+                        WHERE id_dispositivo = :id_dispositivo
+                    """, novo_status=novo_status, id_dispositivo=id_dispositivo)
+                elif escolha == '3':
+                    nova_localizacao = input("Digite a nova localização: ")
+                    cursor.execute("""
+                        UPDATE t_gs_dispositivo_medicao
+                        SET localizacao = :nova_localizacao
+                        WHERE id_dispositivo = :id_dispositivo
+                    """, nova_localizacao=nova_localizacao, id_dispositivo=id_dispositivo)
+                else:
+                    print("Opção inválida.")
+                    return
+
+                connection.commit()
+                print("Dispositivo atualizado com sucesso!")
+            else:
+                print("Nenhum dispositivo encontrado para este usuário.")
+        except oracledb.Error as error:
+            print(f"Erro ao editar dispositivo: {error}")
+            connection.rollback()
+        finally:
+            cursor.close()
+            connection.close()
+
+        
+        
+    def exclui_dispositivo(self):
+        connection = self.get_connection()
+        cursor = connection.cursor()
+        dispositivos = self.lista_dispositivos()
+        try:
+            if dispositivos:
+                id_dispositivo = int(input("\nDigite o ID do dispositivo que deseja excluir: "))
+
+                dispositivo = next((d for d in dispositivos if d[0] == id_dispositivo), None)
+                if not dispositivo:
+                    print("ID do dispositivo não encontrado.")
+                    return
+
+                confirmacao = input(f"Tem certeza que deseja excluir o dispositivo {id_dispositivo}? (s/n): ")
+                if confirmacao.lower() == 's':
+                    cursor.execute("""
+                        DELETE FROM t_gs_dispositivo_medicao
+                        WHERE id_dispositivo = :id_dispositivo
+                    """, id_dispositivo=id_dispositivo)
+
+                    connection.commit()
+                    print("Dispositivo excluído com sucesso!")
+                else:
+                    print("Exclusão cancelada.")
+            else:
+                print("Nenhum dispositivo encontrado para este usuário.")
+        except oracledb.Error as error:
+            print(f"Erro ao excluir dispositivo: {error}")
+            connection.rollback()
+        finally:
+            cursor.close()
+            connection.close()
+
