@@ -1,5 +1,6 @@
 # negocio.py
 from banco import Banco
+import re
 
 class Negocio:
     def __init__(self):
@@ -7,6 +8,10 @@ class Negocio:
     
     def cadastrar_usuario(self, email, senha, cpf, nome):
         try:
+            if not self.valida_cpf(cpf):
+                print("CPF inválido. Por favor, insira um CPF válido.")
+                return
+
             login_id = self.banco.insere_login_banco(email, senha)  
             if login_id:
                 self.banco.insere_usuario_banco(cpf, nome, login_id) 
@@ -15,6 +20,27 @@ class Negocio:
                 print("Erro ao obter ID do login.")
         except Exception as e:
             print(f"Erro ao cadastrar usuário: {e}")
+
+    
+    def valida_cpf(cpf):
+        cpf = ''.join(re.findall(r'\d', str(cpf)))
+        if len(cpf) != 11:
+            return False
+
+        if cpf == cpf[0] * len(cpf):
+            return False
+
+        sum_val = sum(int(cpf[i]) * (10 - i) for i in range(9))
+        first_check_digit = 11 - (sum_val % 11)
+        if first_check_digit >= 10:
+            first_check_digit = 0
+
+        sum_val = sum(int(cpf[i]) * (11 - i) for i in range(10))
+        second_check_digit = 11 - (sum_val % 11)
+        if second_check_digit >= 10:
+            second_check_digit = 0
+
+        return cpf[-2:] == f"{first_check_digit}{second_check_digit}"
 
     def login_usuario(self, email, senha):
         return self.banco.login_usuario(email, senha)
