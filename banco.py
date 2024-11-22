@@ -7,7 +7,7 @@ class Banco:
 
     @staticmethod
     def get_connection():
-        return oracledb.connect(user='rm556182', password='101003', dsn="oracle.fiap.com.br/orcl")
+        return oracledb.connect(user='rm554489', password='280606', dsn="oracle.fiap.com.br/orcl")
 
     def insere_login_banco(self, email, senha):
         connection = self.get_connection()
