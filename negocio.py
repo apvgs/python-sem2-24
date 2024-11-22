@@ -1,6 +1,7 @@
 # negocio.py
 from banco import Banco
 import re
+import json
 
 class Negocio:
     def __init__(self):
@@ -47,4 +48,28 @@ class Negocio:
 
     def insere_dispositivo(self,codigo, localizacao):
         return self.banco.insere_dispositivo(codigo, localizacao)
+    
+    
+
+    def exportar_dispositivos_json(self, nome_arquivo):
+        dispositivos = self.banco.lista_dispositivos()
+        if dispositivos:
+            dispositivos_dict = [
+                {
+                    "ID Dispositivo": dispositivo[0],
+                    "Código": dispositivo[1],
+                    "Status": dispositivo[2],
+                    "Localização": dispositivo[3]
+                }
+                for dispositivo in dispositivos
+            ]
+            
+            with open(nome_arquivo, 'w', encoding='utf-8') as json_file:
+                json.dump(dispositivos_dict, json_file, ensure_ascii=False, indent=4)
+            
+            print(f"Dispositivos exportados para {nome_arquivo} com sucesso!")
+        else:
+            print("Nenhum dispositivo encontrado para exportar.")
+
+
         

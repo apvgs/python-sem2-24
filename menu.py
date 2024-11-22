@@ -48,6 +48,7 @@ class Menu:
             print("2. Listar Dispositivos de monitoramento")
             print("3. Editar Dispositivos de monitoramento")
             print("4. Excluir dispositivo de monitoramento")
+            print("5. Exportar dispositivo de monitoramento para um arquivo .json")
             print("0. Logout")
 
             escolha = input("Escolha uma opção: ")
@@ -60,6 +61,8 @@ class Menu:
                 self.editar_dispositivo()
             elif escolha == '4':
                 self.excluir_dispositivo()
+            elif escolha == '5':
+                self.exportar_dispositivos_json()
             elif escolha == '0':
                 print("Fazendo logout...")
                 break
@@ -82,7 +85,12 @@ class Menu:
         
         self.negocio.banco.edita_dispositivo()
         
-        
     def excluir_dispositivo(self):
         print("\n=== Deletar Dispositivo ===")
         self.negocio.banco.exclui_dispositivo()
+        
+    def exportar_dispositivos_json(self): 
+        print("\n=== Exportar Dispositivos para JSON ===")
+        nome_arquivo = input("Digite o nome do arquivo para exportar (ex: dispositivos.json): ") 
+        
+        self.negocio.exportar_dispositivos_json(nome_arquivo)

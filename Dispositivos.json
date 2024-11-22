@@ -1,0 +1,20 @@
+[
+    {
+        "ID Dispositivo": 2,
+        "Código": "ijhbad",
+        "Status": "A",
+        "Localização": "Cozinha"
+    },
+    {
+        "ID Dispositivo": 3,
+        "Código": "lwieuayrgf",
+        "Status": "A",
+        "Localização": "banheiros"
+    },
+    {
+        "ID Dispositivo": 1,
+        "Código": "abcde1234",
+        "Status": "I",
+        "Localização": "suite master"
+    }
+]
