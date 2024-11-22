@@ -22,7 +22,7 @@ class Negocio:
         except Exception as e:
             print(f"Erro ao cadastrar usuário: {e}")
 
-    
+    @staticmethod
     def valida_cpf(cpf):
         cpf = ''.join(re.findall(r'\d', str(cpf)))
         if len(cpf) != 11:
